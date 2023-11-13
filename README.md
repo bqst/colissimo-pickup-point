@@ -34,7 +34,6 @@ const api = new ColissimoAPI();
 api.findRDVPointRetraitAcheminement({
   accountNumber: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD',
-  // ... other required parameters
 }).then(response => {
   console.log(response);
 }).catch(error => {
