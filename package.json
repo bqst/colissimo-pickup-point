@@ -1,6 +1,6 @@
 {
   "name": "colissimo-pickup-point",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": "bqst/colissimo-pickup-point",
   "description": "Get the list of pickup points for a given address using the Colissimo API",
   "main": "./dist/src/index.js",
@@ -13,7 +13,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "rimraf dist && tsc",
-    "prepublishOnly": "npm run build"
+    "prepare": "npm run build"
   },
   "keywords": [
     "colissimo",
