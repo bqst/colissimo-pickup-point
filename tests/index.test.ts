@@ -1,48 +1,53 @@
-// Import necessary modules
 import axios from 'axios';
-import ColissimoAPI from '../src/index';
+import ColissimoAPI, { ENDPOINT, FindRDVPointRetraitAcheminementParams } from '../src';
 
-// Mock axios
+// Mock axios to avoid real API calls in tests
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
-// Define your test suite
 describe('ColissimoAPI', () => {
+  let api: ColissimoAPI;
+  let params: FindRDVPointRetraitAcheminementParams;
+
+  beforeEach(() => {
+    api = new ColissimoAPI();
+    params = {
+      accountNumber: 'accountNumber',
+      password: 'password',
+      address: 'address',
+      zipCode: 'zipCode',
+      city: 'city',
+      countryCode: 'FR',
+      weight: 1,
+      shippingDate: '01/01/2024',
+      filterRelay: '1'
+    };
+  });
+
   describe('findRDVPointRetraitAcheminement', () => {
-    it('should fetch data successfully from the API', async () => {
-      // Mock data to simulate a successful API response
-      const mockData = {
-        status: 'success',
+    it('should return data on a successful call', async () => {
+      const mockResponse = {
         data: {
-          points: [
-            {
-              id: '123',
-              name: 'Point A',
-              address: 'Address A',
-              zipCode: 'ZipCode A',
-              city: 'City A',
-              countryCode: 'Country A',
-            },
-            // Add more mock points as needed
-          ],
-        },
+          errorCode: 0,
+          errorMessage: "Code retour OK",
+          qualiteReponse: 2,
+          wsRequestId: "123456789",
+          listePointRetraitAcheminement: []
+        }
       };
+      mockedAxios.post.mockResolvedValue(mockResponse);
 
-      // Mock the axios GET request
-      mockedAxios.get.mockResolvedValue({ data: mockData });
+      const result = await api.findRDVPointRetraitAcheminement(params);
 
-      // Instantiate your API wrapper class
-      const api = new ColissimoAPI();
-
-      // Call the method with mock parameters
-      const response = await api.findRDVPointRetraitAcheminement({ /* your mock params here */ });
-
-      // Assertions to test method functionality
-      expect(response).toEqual(mockData);
-      expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-      // Add more assertions as necessary
+      expect(result).toEqual(mockResponse.data);
+      expect(mockedAxios.post).toHaveBeenCalledWith(ENDPOINT, params);
     });
 
-    // Add more tests, for example, to handle error responses
+    it('should throw an error if the axios call fails', async () => {
+      const errorMessage = 'Error while calling Colissimo API';
+      mockedAxios.post.mockRejectedValue(new Error('Network Error'));
+
+      await expect(api.findRDVPointRetraitAcheminement(params)).rejects.toThrow(errorMessage);
+    });
   });
 });
