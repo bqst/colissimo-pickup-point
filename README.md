@@ -27,7 +27,7 @@ yarn add colissimo-pickup-point
 Here's a basic example of how to use the package:
 
 ```typescript
-import ColissimoAPI from '<your-package-name>';
+import ColissimoAPI from 'colissimo-pickup-point';
 
 const api = new ColissimoAPI();
 
