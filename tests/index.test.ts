@@ -1,6 +1,6 @@
 // Import necessary modules
 import axios from 'axios';
-import ColissimoAPI from './index';
+import ColissimoAPI from '../src/index';
 
 // Mock axios
 jest.mock('axios');
