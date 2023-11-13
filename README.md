@@ -35,7 +35,7 @@ api.findRDVPointRetraitAcheminement({
   accountNumber: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD',
   address: "1 rue de la paix",
-  zipCode: "75000"
+  zipCode: "75000",
   city: "PARIS",
   countryCode: "FR",
   weight: "1",
