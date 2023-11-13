@@ -11,9 +11,11 @@
     "index.js"
   ],
   "scripts": {
+    "lint": "eslint src/**/*.ts",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "rimraf dist && tsc"
+    "build": "rimraf dist && tsc",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "colissimo",
