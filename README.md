@@ -34,6 +34,13 @@ const api = new ColissimoAPI();
 api.findRDVPointRetraitAcheminement({
   accountNumber: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD',
+  address: "1 rue de la paix",
+  zipCode: "75000"
+  city: "PARIS",
+  countryCode: "FR",
+  weight: "1",
+  shippingDate: "01/01/2024",
+  filterRelay: "1"
   // ...other parameters
 }).then(response => {
   console.log(response);
