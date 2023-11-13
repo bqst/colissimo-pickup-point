@@ -1,6 +1,6 @@
 {
   "name": "colissimo-pickup-point",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "repository": "bqst/colissimo-pickup-point",
   "description": "Get the list of pickup points for a given address using the Colissimo API",
   "main": "index.js",
