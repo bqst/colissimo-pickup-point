@@ -1,14 +1,22 @@
 {
   "name": "colissimo-pickup-point",
   "version": "1.0.0",
-  "description": "",
+  "repository": "bqst/colissimo-pickup-point",
+  "description": "Get the list of pickup points for a given address using the Colissimo API",
   "main": "index.js",
   "scripts": {
     "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "colissimo",
+    "laposte"
+  ],
+  "author": {
+    "name": "Bastien MONTOIS",
+    "email": "bastien.montois@gmail.com",
+    "url": "https://www.bqst.fr"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.8",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
