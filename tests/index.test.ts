@@ -1,5 +1,8 @@
 import axios from 'axios'
-import ColissimoAPI from '../src'
+import {
+  authenticate,
+  findRDVPointRetraitAcheminement
+} from '../src/index'
 import { ENDPOINT } from '../src/constants'
 import { 
   AuthenticateParams, 
@@ -11,13 +14,11 @@ jest.mock('axios')
 const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('ColissimoAPI', () => {
-  let api: ColissimoAPI
 
   describe('authenticate', () => {
     let params: AuthenticateParams
 
     beforeEach(() => {
-      api = new ColissimoAPI()
       params = {
         login: 'testLogin',
         password: 'testPassword'
@@ -32,7 +33,7 @@ describe('ColissimoAPI', () => {
       }
       mockedAxios.post.mockResolvedValue(mockResponse)
 
-      const result = await api.authenticate(params)
+      const result = await authenticate(params)
 
       expect(result).toEqual(mockResponse.data)
       expect(mockedAxios.post).toHaveBeenCalledWith(`${ENDPOINT}/widget-colissimo/rest/authenticate.rest`, params)
@@ -42,7 +43,7 @@ describe('ColissimoAPI', () => {
       const errorMessage = 'Error while calling Colissimo API'
       mockedAxios.post.mockRejectedValue(new Error('Network Error'))
 
-      await expect(api.authenticate(params)).rejects.toThrow(errorMessage)
+      await expect(authenticate(params)).rejects.toThrow(errorMessage)
     })
   })
 
@@ -75,7 +76,7 @@ describe('ColissimoAPI', () => {
       }
       mockedAxios.post.mockResolvedValue(mockResponse)
 
-      const result = await api.findRDVPointRetraitAcheminement(params)
+      const result = await findRDVPointRetraitAcheminement(params)
 
       expect(result).toEqual(mockResponse.data)
       expect(mockedAxios.post).toHaveBeenCalledWith(`${ENDPOINT}/pointretrait-ws-cxf/rest/v2/pointretrait/findRDVPointRetraitAcheminement`, params)
@@ -85,7 +86,7 @@ describe('ColissimoAPI', () => {
       const errorMessage = 'Error while calling Colissimo API'
       mockedAxios.post.mockRejectedValue(new Error('Network Error'))
 
-      await expect(api.findRDVPointRetraitAcheminement(params)).rejects.toThrow(errorMessage)
+      await expect(findRDVPointRetraitAcheminement(params)).rejects.toThrow(errorMessage)
     })
   })
 })

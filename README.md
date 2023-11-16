@@ -27,12 +27,13 @@ yarn add colissimo-pickup-point
 Here's a basic example of how to use the package:
 
 ```typescript
-import ColissimoAPI from 'colissimo-pickup-point';
-
-const api = new ColissimoAPI();
+import {
+  authenticate,
+  findRDVPointRetraitAcheminement
+} from 'colissimo-pickup-point';
 
 // authenticate with your Colissimo credentials
-api.authenticate({
+authenticate({
   login: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD'
 }).then(response => {
@@ -42,7 +43,7 @@ api.authenticate({
 });
 
 // find pickup points
-api.findRDVPointRetraitAcheminement({
+findRDVPointRetraitAcheminement({
   accountNumber: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD',
   address: "1 rue de la paix",
