@@ -73,8 +73,7 @@ export interface Conge {
 class ColissimoAPI {
   async findRDVPointRetraitAcheminement(params: FindRDVPointRetraitAcheminementParams): Promise<FindRDVPointRetraitAcheminementResponse> {
     const { data } = await axios.post(ENDPOINT, params).catch((error) => {
-      console.error(error)
-      throw new Error('Error while calling Colissimo API')
+      throw new Error(`Error while calling Colissimo API : ${error.message}`)
     })
 
     return data
