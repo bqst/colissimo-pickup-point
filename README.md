@@ -31,6 +31,17 @@ import ColissimoAPI from 'colissimo-pickup-point';
 
 const api = new ColissimoAPI();
 
+// authenticate with your Colissimo credentials
+api.authenticate({
+  login: 'YOUR_ACCOUNT_NUMBER',
+  password: 'YOUR_PASSWORD'
+}).then(response => {
+  console.log(response);
+}).catch(error => {
+  console.error(error);
+});
+
+// find pickup points
 api.findRDVPointRetraitAcheminement({
   accountNumber: 'YOUR_ACCOUNT_NUMBER',
   password: 'YOUR_PASSWORD',
@@ -50,6 +61,18 @@ api.findRDVPointRetraitAcheminement({
 ```
 
 ## API Reference
+
+### `authenticate(params: AuthenticateParams): Promise<AuthenticateResponse>`
+
+Authenticates with the Colissimo API.
+
+- `params`: An object containing the following parameters:
+  - `login`: Your Colissimo account number.
+  - `password`: Your Colissimo password.
+
+Returns
+
+A Promise that resolves to the response object of the authenticate method.
 
 ### `findRDVPointRetraitAcheminement(params: FindRDVPointRetraitAcheminementParams): Promise<FindRDVPointRetraitAcheminementResponse>`
 

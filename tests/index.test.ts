@@ -1,30 +1,68 @@
-import axios from 'axios';
-import ColissimoAPI, { ENDPOINT, FindRDVPointRetraitAcheminementParams } from '../src';
+import axios from 'axios'
+import ColissimoAPI from '../src'
+import { ENDPOINT } from '../src/constants'
+import { 
+  AuthenticateParams, 
+  FindRDVPointRetraitAcheminementParams 
+} from '../src/types'
 
 // Mock axios to avoid real API calls in tests
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+jest.mock('axios')
+const mockedAxios = axios as jest.Mocked<typeof axios>
 
 describe('ColissimoAPI', () => {
-  let api: ColissimoAPI;
-  let params: FindRDVPointRetraitAcheminementParams;
+  let api: ColissimoAPI
 
-  beforeEach(() => {
-    api = new ColissimoAPI();
-    params = {
-      accountNumber: 'accountNumber',
-      password: 'password',
-      address: 'address',
-      zipCode: 'zipCode',
-      city: 'city',
-      countryCode: 'FR',
-      weight: 1,
-      shippingDate: '01/01/2024',
-      filterRelay: '1'
-    };
-  });
+  describe('authenticate', () => {
+    let params: AuthenticateParams
+
+    beforeEach(() => {
+      api = new ColissimoAPI()
+      params = {
+        login: 'testLogin',
+        password: 'testPassword'
+      }
+    })
+
+    it('should return data on a successful call', async () => {
+      const mockResponse = {
+        data: {
+          token: 'testToken'
+        }
+      }
+      mockedAxios.post.mockResolvedValue(mockResponse)
+
+      const result = await api.authenticate(params)
+
+      expect(result).toEqual(mockResponse.data)
+      expect(mockedAxios.post).toHaveBeenCalledWith(`${ENDPOINT}/widget-colissimo/rest/authenticate.rest`, params)
+    })
+
+    it('should throw an error if the axios call fails', async () => {
+      const errorMessage = 'Error while calling Colissimo API'
+      mockedAxios.post.mockRejectedValue(new Error('Network Error'))
+
+      await expect(api.authenticate(params)).rejects.toThrow(errorMessage)
+    })
+  })
 
   describe('findRDVPointRetraitAcheminement', () => {
+    let params: FindRDVPointRetraitAcheminementParams
+
+    beforeEach(() => {
+      params = {
+        accountNumber: 'accountNumber',
+        password: 'password',
+        address: 'address',
+        zipCode: 'zipCode',
+        city: 'city',
+        countryCode: 'FR',
+        weight: 1,
+        shippingDate: '01/01/2024',
+        filterRelay: '1'
+      }
+    })
+
     it('should return data on a successful call', async () => {
       const mockResponse = {
         data: {
@@ -34,20 +72,20 @@ describe('ColissimoAPI', () => {
           wsRequestId: "123456789",
           listePointRetraitAcheminement: []
         }
-      };
-      mockedAxios.post.mockResolvedValue(mockResponse);
+      }
+      mockedAxios.post.mockResolvedValue(mockResponse)
 
-      const result = await api.findRDVPointRetraitAcheminement(params);
+      const result = await api.findRDVPointRetraitAcheminement(params)
 
-      expect(result).toEqual(mockResponse.data);
-      expect(mockedAxios.post).toHaveBeenCalledWith(ENDPOINT, params);
-    });
+      expect(result).toEqual(mockResponse.data)
+      expect(mockedAxios.post).toHaveBeenCalledWith(`${ENDPOINT}/pointretrait-ws-cxf/rest/v2/pointretrait/findRDVPointRetraitAcheminement`, params)
+    })
 
     it('should throw an error if the axios call fails', async () => {
-      const errorMessage = 'Error while calling Colissimo API';
-      mockedAxios.post.mockRejectedValue(new Error('Network Error'));
+      const errorMessage = 'Error while calling Colissimo API'
+      mockedAxios.post.mockRejectedValue(new Error('Network Error'))
 
-      await expect(api.findRDVPointRetraitAcheminement(params)).rejects.toThrow(errorMessage);
-    });
-  });
-});
+      await expect(api.findRDVPointRetraitAcheminement(params)).rejects.toThrow(errorMessage)
+    })
+  })
+})
